@@ -1,0 +1,119 @@
+# Example: Todo Complete Webhook
+
+This example shows how a RafikiClaw agent calls a webhook when a task is marked done.
+
+## Scenario
+
+An agent completes a task and needs to notify an external system
+(e.g., a project management tool, a notification service, a CRM).
+
+## Usage
+
+```bash
+# Set the webhook URL and optional key
+export RAFIKICLAW_WEBHOOK_URL=https://your-webhook-endpoint.com/events
+export RAFIKICLAW_WEBHOOK_KEY=your-secret-key
+
+# Run the agent
+rafikiclaw run agent.claw --llm-api-key-env=OPENAI_API_KEY
+
+# Or use the webhook client directly in code:
+cat << 'EOF' | go run -
+package main
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+    "github.com/gmmakoele-ship-it/rafikiclaw/pkg/webhook"
+)
+func main() {
+    cli := webhook.NewClient(os.Getenv("RAFIKICLAW_WEBHOOK_URL"),
+        webhook.WithClientAPIKey(os.Getenv("RAFIKICLAW_WEBHOOK_KEY")),
+    )
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+    defer cancel()
+
+    ev := webhook.Event{
+        Type:    "task.complete",
+        AgentID: "floki-agent-01",
+        Payload: map[string]interface{}{
+            "taskId":    "TASK-1234",
+            "result":    "Research complete. Found 3 leads.",
+            "completedBy": "floki",
+            "durationSec": 45,
+        },
+    }
+
+    report := cli.Send(ctx, ev)
+    fmt.Printf("webhook delivered: success=%v status=%d\n", report.Success, report.StatusCode)
+}
+EOF
+```
+
+## Webhook Event Types
+
+| Type | Trigger |
+|------|---------|
+| `task.complete` | Agent successfully completes a task |
+| `task.failed` | Agent task ends with an error |
+| `agent.start` | Agent lifecycle begins |
+| `agent.error` | Agent encounters an internal error |
+| `agent.stop` | Agent lifecycle ends |
+| `sar.received` | Subject Access Request received |
+
+## Event Schema
+
+```json
+{
+  "id": "evt_20260509t143022987654321",
+  "type": "task.complete",
+  "agentId": "floki-agent-01",
+  "timestamp": "2026-05-09T14:30:22Z",
+  "payload": {
+    "taskId": "TASK-1234",
+    "result": "Research complete. Found 3 leads.",
+    "completedBy": "floki",
+    "durationSec": 45
+  },
+  "signedBy": "ed25519:abc123",
+  "signature": "hmac-sha256:..."
+}
+```
+
+## Receiving Webhooks
+
+Start the RafikiClaw webhook receiver:
+
+```bash
+rafikiclaw webhook server \
+  --listen=:9393 \
+  --api-key=your-secret \
+  --events-file=./webhooks.jsonl \
+  --strict
+```
+
+Register handlers in your application:
+
+```go
+srv := webhook.NewServer(":9393",
+    webhook.WithServerAPIKey("your-secret"),
+    webhook.WithEventsFile("./webhooks.jsonl"),
+)
+
+srv.RegisterHandler("task.complete", func(ev webhook.Event) error {
+    taskID, _ := ev.Payload["taskId"].(string)
+    fmt.Printf("Task %s completed by %s\n", taskID, ev.AgentID)
+    return nil // return error to reject the webhook
+})
+
+ctx := context.Background()
+srv.Start(ctx)
+```
+
+## Security Notes
+
+- Always use HTTPS for webhook URLs in production
+- Verify the `signature` field using the shared secret
+- Keep API keys out of code — use environment variables
+- The webhook receiver runs locally; it is not a public network service by default

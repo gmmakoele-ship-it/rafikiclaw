@@ -19,6 +19,7 @@ type RunRecord struct {
 	RunID         string `json:"runId"`
 	CapsuleID     string `json:"capsuleId"`
 	CapsulePath   string `json:"capsulePath"`
+	AgentName     string `json:"agentName"`
 	Status        string `json:"status"`
 	Lifecycle     string `json:"lifecycle"`
 	RuntimeTarget string `json:"runtimeTarget"`

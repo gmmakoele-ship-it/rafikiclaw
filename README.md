@@ -47,6 +47,32 @@ go build -o ./bin/rafikiclaw ./cmd/metaclaw
 ./bin/rafikiclaw run my-agent.claw \
   --llm-api-key-env=OPENAI_API_KEY \
   --runtime=docker
+
+## New in Phase 4
+
+```bash
+# Start the LLM proxy (inject skills + persona into chat requests)
+./bin/rafikiclaw proxy --llm-url=https://api.openai.com/v1 \
+  --skills-dir=./skills \
+  --persona=./persona.md
+
+# Start the webhook receiver (audit-log all incoming webhooks)
+./bin/rafikiclaw webhook server \
+  --listen=:9393 \
+  --events-file=./webhooks.jsonl
+```
+
+## Skills & Compliance
+
+```bash
+# Skills are .md files that agents can load
+# Available skills:
+#   skills/lang-zulu.skill.md         — Zulu language awareness
+#   skills/lang-afrikaans.skill.md     — Afrikaans language awareness
+#   skills/popia-data-handler.skill.md — POPIA data governance
+
+# POPIA compliance checklist:
+#   legal/popia/assessment-checklist.md
 ```
 
 ## Architecture
