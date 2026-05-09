@@ -10,9 +10,11 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"syscall"
 	goruntime "runtime"
 	"sort"
 	"strconv"
@@ -35,14 +37,17 @@ type doctorReport struct {
 }
 
 type doctorOptions struct {
-	Runtime       string
-	VaultPath     string
-	LLMKeyEnv     string
-	WebKeyEnv     string
-	RequireLLMKey bool
-	CheckJQ       bool
-	CheckPython   bool
-	RequireVault  bool
+	Runtime        string
+	VaultPath      string
+	LLMKeyEnv      string
+	WebKeyEnv      string
+	RequireLLMKey  bool
+	CheckJQ        bool
+	CheckPython    bool
+	RequireVault   bool
+	CheckNetwork   bool
+	CheckDiskSpace bool
+	DiskSpaceMinMB int
 }
 
 type quickstartOptions struct {
@@ -98,21 +103,27 @@ var obsidianProfiles = map[string]obsidianProfile{
 
 func runDoctor(args []string) int {
 	args = reorderFlags(args, map[string]bool{
-		"--runtime":         true,
-		"--vault":           true,
-		"--llm-key-env":     true,
-		"--web-key-env":     true,
-		"--require-llm-key": false,
-		"--json":            false,
+		"--runtime":          true,
+		"--vault":            true,
+		"--llm-key-env":      true,
+		"--web-key-env":      true,
+		"--require-llm-key":  false,
+		"--check-network":    false,
+		"--check-disk-space": false,
+		"--disk-space-min":   true,
+		"--json":             false,
 	})
 
 	fs := flag.NewFlagSet("doctor", flag.ContinueOnError)
 	opts := doctorOptions{
-		Runtime:     "auto",
-		LLMKeyEnv:   "OPENAI_FORMAT_API_KEY",
-		WebKeyEnv:   "TAVILY_API_KEY",
-		CheckJQ:     true,
-		CheckPython: true,
+		Runtime:        "auto",
+		LLMKeyEnv:      "OPENAI_FORMAT_API_KEY",
+		WebKeyEnv:      "TAVILY_API_KEY",
+		CheckJQ:        true,
+		CheckPython:    true,
+		CheckNetwork:   true,
+		CheckDiskSpace: true,
+		DiskSpaceMinMB:  512,
 	}
 	var asJSON bool
 	fs.StringVar(&opts.Runtime, "runtime", opts.Runtime, "runtime target (auto|apple_container|podman|docker)")
@@ -120,12 +131,15 @@ func runDoctor(args []string) int {
 	fs.StringVar(&opts.LLMKeyEnv, "llm-key-env", opts.LLMKeyEnv, "LLM API key env name")
 	fs.StringVar(&opts.WebKeyEnv, "web-key-env", opts.WebKeyEnv, "web search API key env name")
 	fs.BoolVar(&opts.RequireLLMKey, "require-llm-key", false, "treat missing llm key env as failure")
+	fs.BoolVar(&opts.CheckNetwork, "check-network", true, "check network/connectivity")
+	fs.BoolVar(&opts.CheckDiskSpace, "check-disk-space", true, "check available disk space")
+	fs.IntVar(&opts.DiskSpaceMinMB, "disk-space-min", opts.DiskSpaceMinMB, "minimum required disk space in MB")
 	fs.BoolVar(&asJSON, "json", false, "json output")
 	if err := fs.Parse(args); err != nil {
 		return 1
 	}
 	if len(fs.Args()) != 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw doctor [--runtime=auto|apple_container|podman|docker] [--vault=/path] [--llm-key-env=OPENAI_FORMAT_API_KEY] [--web-key-env=TAVILY_API_KEY] [--require-llm-key] [--json]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw doctor [--runtime=auto|apple_container|podman|docker] [--vault=/path] [--llm-key-env=OPENAI_FORMAT_API_KEY] [--web-key-env=TAVILY_API_KEY] [--require-llm-key] [--check-network] [--check-disk-space] [--disk-space-min=MB] [--json]")
 		return 1
 	}
 
@@ -445,6 +459,15 @@ func collectDoctorReport(opts doctorOptions) (doctorReport, error) {
 		} else {
 			add("python3", doctorStatusFail, "python3 not found (required by chat.sh)")
 		}
+	}
+
+
+	if opts.CheckDiskSpace {
+		checkDiskSpace(opts.DiskSpaceMinMB, add)
+	}
+
+	if opts.CheckNetwork {
+		checkNetworkConnectivity(add)
 	}
 
 	failed := make([]string, 0, 4)
@@ -1478,4 +1501,51 @@ func mergedEnv(extra map[string]string) []string {
 func commandExists(name string) bool {
 	_, err := exec.LookPath(name)
 	return err == nil
+}
+
+// checkDiskSpace verifies adequate disk space is available for rafikiclaw operations.
+func checkDiskSpace(minMB int, add func(name, status, detail string)) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		add("disk_space", doctorStatusWarn, "cannot determine home directory for space check")
+		return
+	}
+	var stat syscall.Statfs_t
+	if err := syscall.Statfs(homeDir, &stat); err != nil {
+		add("disk_space", doctorStatusWarn, fmt.Sprintf("cannot statfs %s: %v", homeDir, err))
+		return
+	}
+	freeBytes := stat.Bfree * uint64(stat.Bsize)
+	freeMB := int(freeBytes / 1024 / 1024)
+	if freeMB < minMB {
+		add("disk_space", doctorStatusFail, fmt.Sprintf("only %d MB free (minimum %d MB required for safe operation)", freeMB, minMB))
+		return
+	}
+	add("disk_space", doctorStatusPass, fmt.Sprintf("%d MB free (above %d MB threshold)", freeMB, minMB))
+}
+
+// checkNetworkConnectivity verifies outbound network access.
+// rafikiclaw does NOT require internet for local-first operation, but reports connectivity status.
+func checkNetworkConnectivity(add func(name, status, detail string)) {
+	// Try reach both Docker Hub (container images) and GitHub (examples/upgrades) to give useful signal.
+	targets := []struct {
+		host  string
+		label string
+	}{
+		{"registry-1.docker.io", "docker hub"},
+		{"github.com", "github.com"},
+	}
+	for _, t := range targets {
+		address := t.host + ":443"
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		dialer := &net.Dialer{}
+		conn, err := dialer.DialContext(ctx, "tcp", address)
+		cancel()
+		if err != nil {
+			add("network", doctorStatusWarn, fmt.Sprintf("cannot reach %s (%s): %v", t.label, t.host, err))
+			return
+		}
+		_ = conn.Close()
+	}
+	add("network", doctorStatusPass, "outbound connectivity OK (docker hub + github.com reachable)")
 }

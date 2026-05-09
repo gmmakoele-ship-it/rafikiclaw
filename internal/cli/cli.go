@@ -431,7 +431,7 @@ commands:
   wizard [--interactive] [--project-dir=./my-bot] [--out=obsidian-bot.claw] [--vault=./vault] [--provider=gemini_openai]
   quickstart obsidian [--project-dir=./my-bot] [--vault=/abs/path/to/vault] [--runtime=auto|apple_container|podman|docker] [--profile=obsidian-chat]
   onboard obsidian (interactive prompts)
-  doctor [--runtime=auto|apple_container|podman|docker] [--vault=/path] [--llm-key-env=OPENAI_FORMAT_API_KEY] [--web-key-env=TAVILY_API_KEY]
+  doctor [--runtime=auto|apple_container|podman|docker] [--vault=/path] [--llm-key-env=OPENAI_FORMAT_API_KEY] [--web-key-env=TAVILY_API_KEY] [--require-llm-key] [--check-network] [--check-disk-space] [--disk-space-min=MB] [--json]
   project init --project-dir=... (--template-dir=... | --template-repo=... --template-path=...) [--ref=main]
   project upgrade [--project-dir=.] [--force] [--dry-run]
   validate <file.claw>
