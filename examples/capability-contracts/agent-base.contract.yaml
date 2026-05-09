@@ -1,0 +1,59 @@
+apiVersion: rafikiclaw.capability/v1
+kind: CapabilityContract
+metadata:
+  name: rafiki-agent-base
+  version: "1.0.0"
+  description: |
+    Base capability contract for all Rafiki OS agents.
+    Declares the minimum permissions required for a standard agent lifecycle.
+interface:
+  inputs:
+    - name: task
+      type: string
+      required: true
+      description: The task instruction for the agent
+    - name: context
+      type: object
+      required: false
+      description: Additional context variables
+  outputs:
+    - name: result
+      type: string
+      description: Execution result
+    - name: logs
+      type: array
+      description: Structured log entries
+permissions:
+  network: outbound
+  mounts:
+    - target: /workspace
+      access: rw
+      required: true
+      description: Working directory for agent tasks
+    - target: /logs
+      access: rw
+      required: true
+      description: Agent log output directory
+  env:
+    - RAFIKI_AGENT_ID
+    - RAFIKI_TASK_TIMEOUT
+  secrets:
+    - OPENAI_API_KEY
+compatibility:
+  minMetaclawVersion: "0.1.0"
+  runtimeTargets:
+    - docker
+    - podman
+observability:
+  requiredEvents:
+    - agent.start
+    - agent.complete
+    - agent.error
+  logFields:
+    - agent_id
+    - task_id
+    - duration_ms
+    - exit_code
+---
+# Additional capability contract examples can be added here.
+# See docs/capability-contracts.md for full documentation.
