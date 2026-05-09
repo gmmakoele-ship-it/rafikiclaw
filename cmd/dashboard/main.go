@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"sort"
 	"strings"
 	"syscall"
 	"time"
@@ -26,22 +27,31 @@ var (
 )
 
 type model struct {
-	runs       []store.RunRecord
-	logEntries []string
-	stats      dashboardStats
-	err        error
-	quitting   bool
-	width      int
-	height     int
+	runs        []store.RunRecord
+	logEntries  []string
+	stats       dashboardStats
+	agentStats  []agentStats
+	err         error
+	quitting    bool
+	width       int
+	height      int
 }
 
 type dashboardStats struct {
-	totalRuns  int
-	active     int
-	succeeded  int
-	failed     int
+	totalRuns   int
+	active      int
+	succeeded   int
+	failed      int
 	skillsCount int
-	tokensUsed int
+	tokensUsed  int
+}
+
+type agentStats struct {
+	Name      string
+	Total     int
+	Succeeded int
+	Failed    int
+	Active    int
 }
 
 func initialModel() model {
@@ -81,11 +91,36 @@ func initialModel() model {
 	}
 	m.stats = dashboardStats{
 		totalRuns:   len(recs),
-		active:     active,
-		succeeded:  succeeded,
-		failed:     failed,
+		active:      active,
+		succeeded:   succeeded,
+		failed:      failed,
 		skillsCount: countSkills(),
 	}
+
+	// Compute per-agent stats
+	agentMap := make(map[string]*agentStats)
+	for _, r := range recs {
+		name := r.AgentName
+		if name == "" {
+			name = "(unknown)"
+		}
+		if _, ok := agentMap[name]; !ok {
+			agentMap[name] = &agentStats{Name: name}
+		}
+		agentMap[name].Total++
+		switch r.Status {
+		case "running", "daemon":
+			agentMap[name].Active++
+		case "succeeded":
+			agentMap[name].Succeeded++
+		case "failed":
+			agentMap[name].Failed++
+		}
+	}
+	for _, v := range agentMap {
+		m.agentStats = append(m.agentStats, *v)
+	}
+	sort.Slice(m.agentStats, func(i, j int) bool { return m.agentStats[i].Name < m.agentStats[j].Name })
 	return m
 }
 
@@ -137,11 +172,12 @@ func (m model) View() string {
 	header := titleStyle.Render("RafikiClaw Dashboard") + "  " + dimStyle.Render(_now)
 
 	leftCards := renderStats(m.stats)
+	agentSection := renderAgents(m.agentStats)
 	rightCards := renderRunsAndLogs(m.runs, m.logEntries)
 
-	layout := lipgloss.JoinHorizontal(lipgloss.Top, leftCards, rightCards)
+	layout := lipgloss.JoinHorizontal(lipgloss.Top, lipgloss.JoinVertical(lipgloss.Top, leftCards, "", agentSection), "  ", rightCards)
 	if m.width > 0 && m.width < 90 {
-		layout = lipgloss.JoinVertical(lipgloss.Top, leftCards, rightCards)
+		layout = lipgloss.JoinVertical(lipgloss.Top, leftCards, agentSection, rightCards)
 	}
 
 	return fmt.Sprintf("%s\n\n%s\n\n%s\n", header, layout, dimStyle.Render("r: refresh  q: quit"))
@@ -208,6 +244,37 @@ func renderRunsAndLogs(runs []store.RunRecord, logEntries []string) string {
 	}
 	logsCard := cardStyle.Render(titleStyle.Render("Recent Events") + "\n" + strings.Join(logLines, "\n"))
 	return lipgloss.JoinVertical(lipgloss.Top, runsCard, "\n", logsCard)
+}
+
+func renderAgents(agents []agentStats) string {
+	if len(agents) == 0 {
+		return cardStyle.Render(titleStyle.Render("Registered Agents") + "\n" + dimStyle.Render("no agents yet"))
+	}
+	var lines []string
+	for _, a := range agents {
+		if len(lines) >= 6 {
+			break
+		}
+		activeDot := dimStyle.Render("○")
+		if a.Active > 0 {
+			activeDot = warnStyle.Render("●")
+		}
+		lines = append(lines, fmt.Sprintf("%s %-16s %s%3d %s%3d %s%3d",
+			activeDot,
+			truncName(a.Name, 16),
+			okStyle.Render("✓"), a.Succeeded,
+			failStyle.Render("✗"), a.Failed,
+			dimStyle.Render("▸"), a.Total,
+		))
+	}
+	return cardStyle.Render(titleStyle.Render("Registered Agents") + "\n" + strings.Join(lines, "\n"))
+}
+
+func truncName(s string, max int) string {
+	if len(s) > max {
+		return s[:max]
+	}
+	return s
 }
 
 func main() {

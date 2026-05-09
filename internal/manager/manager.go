@@ -107,6 +107,7 @@ func (m *Manager) Run(ctx context.Context, opts RunOptions) (store.RunRecord, er
 		RunID:         runID,
 		CapsuleID:     capID,
 		CapsulePath:   capPath,
+		AgentName:     cfg.Agent.Name,
 		Status:        "running",
 		Lifecycle:     string(cfg.Agent.Lifecycle),
 		RuntimeTarget: string(target),

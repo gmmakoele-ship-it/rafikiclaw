@@ -59,6 +59,8 @@ func (s *Store) Close() error {
 
 func (s *Store) initSchema() error {
 	stmts := []string{
+		`ALTER TABLE runs ADD COLUMN agent_name TEXT NOT NULL DEFAULT '';
+		`,
 		`CREATE TABLE IF NOT EXISTS capsules (
 			capsule_id TEXT PRIMARY KEY,
 			capsule_path TEXT NOT NULL,
@@ -68,6 +70,7 @@ func (s *Store) initSchema() error {
 			run_id TEXT PRIMARY KEY,
 			capsule_id TEXT NOT NULL,
 			capsule_path TEXT NOT NULL,
+			agent_name TEXT NOT NULL DEFAULT '',
 			status TEXT NOT NULL,
 			lifecycle TEXT NOT NULL,
 			runtime_target TEXT NOT NULL,
@@ -99,9 +102,9 @@ func (s *Store) UpsertCapsule(capsuleID, capsulePath string) error {
 
 func (s *Store) InsertRun(r RunRecord) error {
 	_, err := s.db.Exec(
-		`INSERT INTO runs (run_id, capsule_id, capsule_path, status, lifecycle, runtime_target, container_id, exit_code, started_at, ended_at, last_error)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-		r.RunID, r.CapsuleID, r.CapsulePath, r.Status, r.Lifecycle, r.RuntimeTarget, nullableString(r.ContainerID), nullableInt(r.ExitCode),
+		`INSERT INTO runs (run_id, capsule_id, capsule_path, agent_name, status, lifecycle, runtime_target, container_id, exit_code, started_at, ended_at, last_error)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		r.RunID, r.CapsuleID, r.CapsulePath, r.AgentName, r.Status, r.Lifecycle, r.RuntimeTarget, nullableString(r.ContainerID), nullableInt(r.ExitCode),
 		r.StartedAt, nullableString(r.EndedAt), nullableString(r.LastError),
 	)
 	return err
@@ -124,10 +127,10 @@ func (s *Store) UpdateRunCompletion(runID, status, containerID string, exitCode 
 }
 
 func (s *Store) GetRun(runID string) (RunRecord, error) {
-	row := s.db.QueryRow(`SELECT run_id, capsule_id, capsule_path, status, lifecycle, runtime_target, COALESCE(container_id,''), exit_code, started_at, COALESCE(ended_at,''), COALESCE(last_error,'') FROM runs WHERE run_id = ?`, runID)
+	row := s.db.QueryRow(`SELECT run_id, capsule_id, capsule_path, COALESCE(agent_name,''), status, lifecycle, runtime_target, COALESCE(container_id,''), exit_code, started_at, COALESCE(ended_at,''), COALESCE(last_error,'') FROM runs WHERE run_id = ?`, runID)
 	var r RunRecord
 	var exit sql.NullInt64
-	if err := row.Scan(&r.RunID, &r.CapsuleID, &r.CapsulePath, &r.Status, &r.Lifecycle, &r.RuntimeTarget, &r.ContainerID, &exit, &r.StartedAt, &r.EndedAt, &r.LastError); err != nil {
+	if err := row.Scan(&r.RunID, &r.CapsuleID, &r.CapsulePath, &r.AgentName, &r.Status, &r.Lifecycle, &r.RuntimeTarget, &r.ContainerID, &exit, &r.StartedAt, &r.EndedAt, &r.LastError); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return RunRecord{}, fmt.Errorf("run not found: %s", runID)
 		}
@@ -144,7 +147,7 @@ func (s *Store) ListRuns(limit int) ([]RunRecord, error) {
 	if limit <= 0 {
 		limit = 100
 	}
-	rows, err := s.db.Query(`SELECT run_id, capsule_id, capsule_path, status, lifecycle, runtime_target, COALESCE(container_id,''), exit_code, started_at, COALESCE(ended_at,''), COALESCE(last_error,'')
+	rows, err := s.db.Query(`SELECT run_id, capsule_id, capsule_path, COALESCE(agent_name,''), status, lifecycle, runtime_target, COALESCE(container_id,''), exit_code, started_at, COALESCE(ended_at,''), COALESCE(last_error,'')
 		FROM runs ORDER BY started_at DESC LIMIT ?`, limit)
 	if err != nil {
 		return nil, err
@@ -155,7 +158,7 @@ func (s *Store) ListRuns(limit int) ([]RunRecord, error) {
 	for rows.Next() {
 		var r RunRecord
 		var exit sql.NullInt64
-		if err := rows.Scan(&r.RunID, &r.CapsuleID, &r.CapsulePath, &r.Status, &r.Lifecycle, &r.RuntimeTarget, &r.ContainerID, &exit, &r.StartedAt, &r.EndedAt, &r.LastError); err != nil {
+		if err := rows.Scan(&r.RunID, &r.CapsuleID, &r.CapsulePath, &r.AgentName, &r.Status, &r.Lifecycle, &r.RuntimeTarget, &r.ContainerID, &exit, &r.StartedAt, &r.EndedAt, &r.LastError); err != nil {
 			return nil, err
 		}
 		if exit.Valid {
