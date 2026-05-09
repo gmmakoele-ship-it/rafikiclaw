@@ -215,6 +215,11 @@ func main() {
 	if len(os.Args) > 2 && os.Args[1] == "--state-dir" {
 		stateDir = os.Args[2]
 	}
+	// Create state dir if it doesn't exist (dashboard needs it to exist)
+	if err := os.MkdirAll(stateDir, 0o755); err != nil {
+		fmt.Fprintf(os.Stderr, "rafikiclaw dashboard: cannot create state dir %s: %v\n", stateDir, err)
+		os.Exit(1)
+	}
 	if err := os.Chdir(stateDir); err != nil {
 		fmt.Fprintf(os.Stderr, "rafikiclaw dashboard: chdir to %s: %v\n", stateDir, err)
 		os.Exit(1)
