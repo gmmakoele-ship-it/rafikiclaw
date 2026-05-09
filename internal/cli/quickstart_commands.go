@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fpp-125/metaclaw/internal/project"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/project"
 )
 
 type doctorCheck struct {
@@ -256,7 +256,7 @@ func runQuickstart(args []string) int {
 	{
 		src := project.TemplateSource{
 			Kind: project.TemplateSourceKindGit,
-			Repo: "https://github.com/fpp-125/metaclaw-examples.git",
+			Repo: "https://github.com/gmmakoele-ship-it/rafikiclaw-examples.git",
 			Ref:  "main",
 			Path: "examples/obsidian-terminal-bot-advanced",
 		}
@@ -800,7 +800,7 @@ func ensureCachedExamplesTemplate() (string, error) {
 		}
 	}
 
-	if err := runGit(cacheRoot, "clone", "--depth", "1", "https://github.com/fpp-125/metaclaw-examples.git", repoDir); err != nil {
+	if err := runGit(cacheRoot, "clone", "--depth", "1", "https://github.com/gmmakoele-ship-it/rafikiclaw-examples.git", repoDir); err != nil {
 		return "", err
 	}
 	if ok, err := hasObsidianTemplate(templateDir); err != nil {

@@ -3,7 +3,7 @@ package spec
 import (
 	"context"
 
-	"github.com/fpp-125/metaclaw/internal/policy"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/policy"
 )
 
 type Target string

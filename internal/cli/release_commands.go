@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fpp-125/metaclaw/internal/release"
-	"github.com/fpp-125/metaclaw/internal/signing"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/release"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/signing"
 )
 
 func runKeygen(args []string) int {

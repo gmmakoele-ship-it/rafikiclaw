@@ -3,12 +3,12 @@ package compiler
 import (
 	"fmt"
 
-	"github.com/fpp-125/metaclaw/internal/capsule"
-	"github.com/fpp-125/metaclaw/internal/claw/parse"
-	v1 "github.com/fpp-125/metaclaw/internal/claw/schema/v1"
-	"github.com/fpp-125/metaclaw/internal/claw/validate"
-	"github.com/fpp-125/metaclaw/internal/locks"
-	"github.com/fpp-125/metaclaw/internal/policy"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/capsule"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/parse"
+	v1 "github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/schema/v1"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/validate"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/locks"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/policy"
 )
 
 type Result struct {

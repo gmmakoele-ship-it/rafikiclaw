@@ -9,8 +9,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/fpp-125/metaclaw/internal/policy"
-	"github.com/fpp-125/metaclaw/internal/runtime/spec"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/policy"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/spec"
 )
 
 type Adapter struct {

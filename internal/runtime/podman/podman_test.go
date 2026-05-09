@@ -3,7 +3,7 @@ package podman
 import (
 	"testing"
 
-	"github.com/fpp-125/metaclaw/internal/policy"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/policy"
 )
 
 func TestPolicyFlagsUseEnvKeysWithoutInliningSecrets(t *testing.T) {

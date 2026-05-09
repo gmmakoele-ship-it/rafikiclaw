@@ -11,15 +11,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fpp-125/metaclaw/internal/capsule"
-	v1 "github.com/fpp-125/metaclaw/internal/claw/schema/v1"
-	"github.com/fpp-125/metaclaw/internal/compiler"
-	"github.com/fpp-125/metaclaw/internal/llm"
-	"github.com/fpp-125/metaclaw/internal/logs"
-	"github.com/fpp-125/metaclaw/internal/policy"
-	"github.com/fpp-125/metaclaw/internal/runtime"
-	"github.com/fpp-125/metaclaw/internal/runtime/spec"
-	store "github.com/fpp-125/metaclaw/internal/store/sqlite"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/capsule"
+	v1 "github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/schema/v1"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/compiler"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/llm"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/logs"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/policy"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/spec"
+	store "github.com/gmmakoele-ship-it/rafikiclaw/internal/store/sqlite"
 )
 
 type Manager struct {

@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/fpp-125/metaclaw/internal/capsule"
-	"github.com/fpp-125/metaclaw/internal/compiler"
-	"github.com/fpp-125/metaclaw/internal/manager"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/capsule"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/compiler"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/manager"
 )
 
 func Execute(args []string) int {
@@ -112,7 +112,7 @@ agent:
 
 func runValidate(args []string) int {
 	if len(args) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw validate <file.claw>")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw validate <file.claw>")
 		return 1
 	}
 	cfg, err := compiler.LoadNormalize(args[0])
@@ -136,7 +136,7 @@ func runCompile(args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw compile <file.claw> [-o dir]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw compile <file.claw> [-o dir]")
 		return 1
 	}
 	res, err := compiler.Compile(remaining[0], out)
@@ -179,7 +179,7 @@ func runRun(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw run <file.claw|capsule_dir> [--detach] [--runtime=..] [--state-dir=.metaclaw] [--llm-api-key=..|--llm-api-key-env=..] [--secret-env=NAME ...]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw run <file.claw|capsule_dir> [--detach] [--runtime=..] [--state-dir=.metaclaw] [--llm-api-key=..|--llm-api-key-env=..] [--secret-env=NAME ...]")
 		return 1
 	}
 	m, err := manager.New(stateDir)
@@ -260,7 +260,7 @@ func runLogs(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw logs <run-id> [--follow]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw logs <run-id> [--follow]")
 		return 1
 	}
 	runID := remaining[0]
@@ -310,7 +310,7 @@ func runInspect(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw inspect <run-id|capsule-dir> [--json]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw inspect <run-id|capsule-dir> [--json]")
 		return 1
 	}
 	target := remaining[0]
@@ -363,7 +363,7 @@ func runInspect(ctx context.Context, args []string) int {
 
 func runDebug(ctx context.Context, args []string) int {
 	if len(args) == 0 || args[0] != "shell" {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw debug shell <run-id> [--state-dir=.metaclaw]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.metaclaw]")
 		return 1
 	}
 	parsed := reorderFlags(args[1:], map[string]bool{"--state-dir": true})
@@ -375,7 +375,7 @@ func runDebug(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw debug shell <run-id> [--state-dir=.metaclaw]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.metaclaw]")
 		return 1
 	}
 	m, err := manager.New(stateDir)
@@ -424,7 +424,7 @@ func takesValue(flagToken string, valueFlags map[string]bool) bool {
 }
 
 func printUsage() {
-	fmt.Print(`metaclaw - local-first infrastructure engine for AI agents
+	fmt.Print(`rafikiclaw - local-first infrastructure engine for AI agents
 
 commands:
   init

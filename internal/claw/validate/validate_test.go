@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	v1 "github.com/fpp-125/metaclaw/internal/claw/schema/v1"
+	v1 "github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/schema/v1"
 )
 
 func TestNormalizeDefaults(t *testing.T) {

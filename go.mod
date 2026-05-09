@@ -1,4 +1,4 @@
-module github.com/fpp-125/metaclaw
+module github.com/gmmakoele-ship-it/rafikiclaw
 
 go 1.25.7
 

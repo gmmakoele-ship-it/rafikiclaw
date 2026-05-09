@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/fpp-125/metaclaw/internal/project"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/project"
 )
 
 func runProject(args []string) int {

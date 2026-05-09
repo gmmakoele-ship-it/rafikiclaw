@@ -9,8 +9,8 @@ import (
 	"sort"
 	"strings"
 
-	v1 "github.com/fpp-125/metaclaw/internal/claw/schema/v1"
-	"github.com/fpp-125/metaclaw/internal/llm"
+	v1 "github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/schema/v1"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/llm"
 	"gopkg.in/yaml.v3"
 )
 

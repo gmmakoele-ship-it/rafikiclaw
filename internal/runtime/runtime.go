@@ -5,10 +5,10 @@ import (
 	"fmt"
 	goruntime "runtime"
 
-	"github.com/fpp-125/metaclaw/internal/runtime/applecontainer"
-	"github.com/fpp-125/metaclaw/internal/runtime/docker"
-	"github.com/fpp-125/metaclaw/internal/runtime/podman"
-	"github.com/fpp-125/metaclaw/internal/runtime/spec"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/applecontainer"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/docker"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/podman"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/runtime/spec"
 )
 
 type Resolver struct {

@@ -9,8 +9,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/fpp-125/metaclaw/internal/capability"
-	v1 "github.com/fpp-125/metaclaw/internal/claw/schema/v1"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/capability"
+	v1 "github.com/gmmakoele-ship-it/rafikiclaw/internal/claw/schema/v1"
 )
 
 var digestRef = regexp.MustCompile(`.+@sha256:[a-fA-F0-9]{64}$`)

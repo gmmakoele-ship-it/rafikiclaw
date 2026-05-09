@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fpp-125/metaclaw/internal/capsule"
+	"github.com/gmmakoele-ship-it/rafikiclaw/internal/capsule"
 )
 
 type capsuleListItem struct {
