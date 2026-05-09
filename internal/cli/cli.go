@@ -57,6 +57,8 @@ func Execute(args []string) int {
 		return runDoctor(args[1:])
 	case "proxy":
 		return runProxy(args[1:])
+	case "dashboard":
+		return runDashboardCmd(args[1:])
 	case "webhook":
 		return runWebhookServer(args[1:])
 	case "project":
@@ -183,7 +185,7 @@ func runRun(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: rafikiclaw run <file.claw|capsule_dir> [--detach] [--runtime=..] [--state-dir=.metaclaw] [--llm-api-key=..|--llm-api-key-env=..] [--secret-env=NAME ...]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw run <file.claw|capsule_dir> [--detach] [--runtime=..] [--state-dir=.rafikiclaw] [--llm-api-key=..|--llm-api-key-env=..] [--secret-env=NAME ...]")
 		return 1
 	}
 	m, err := manager.New(stateDir)
@@ -367,7 +369,7 @@ func runInspect(ctx context.Context, args []string) int {
 
 func runDebug(ctx context.Context, args []string) int {
 	if len(args) == 0 || args[0] != "shell" {
-		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.metaclaw]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.rafikiclaw]")
 		return 1
 	}
 	parsed := reorderFlags(args[1:], map[string]bool{"--state-dir": true})
@@ -379,7 +381,7 @@ func runDebug(ctx context.Context, args []string) int {
 	}
 	remaining := fs.Args()
 	if len(remaining) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.metaclaw]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw debug shell <run-id> [--state-dir=.rafikiclaw]")
 		return 1
 	}
 	m, err := manager.New(stateDir)
@@ -441,7 +443,7 @@ commands:
   validate <file.claw>
   compile <file.claw> [-o dir]
   keygen [--private-key=.metaclaw/keys/release.ed25519.pem] [--public-key=.metaclaw/keys/release.ed25519.pub.pem] [--force]
-  release <file.claw|capsule_dir> [--strict] [--state-dir=.metaclaw] [--out=dir] [--sign-key=path] [--key-id=id]
+  release <file.claw|capsule_dir> [--strict] [--state-dir=.rafikiclaw] [--out=dir] [--sign-key=path] [--key-id=id]
   verify <release_dir|capsule_dir> [--public-key=path] [--require-release]
   run <file.claw|capsule_dir> [--detach] [--runtime=podman|apple_container|docker] [--llm-api-key=..|--llm-api-key-env=..] [--secret-env=NAME ...]
   ps [--json]
@@ -450,8 +452,9 @@ commands:
   debug shell <run-id>
   proxy --llm-url=<url> [--listen=:30000] [--skills-dir=...] [--persona=...] [--contract=...] [--signing-key=path] [--timeout=120]
   webhook server [--listen=:9393] [--api-key=<key>] [--events-file=<path>] [--strict]
-  capsule list [--state-dir=.metaclaw] [--agent=...] [--since=...] [--until=...]
-  capsule diff <id-or-path-1> <id-or-path-2> [--state-dir=.metaclaw] [--json]
+  dashboard [--state-dir=.rafikiclaw]
+  capsule list [--state-dir=.rafikiclaw] [--agent=...] [--since=...] [--until=...]
+  capsule diff <id-or-path-1> <id-or-path-2> [--state-dir=.rafikiclaw] [--json]
 `)
 }
 
