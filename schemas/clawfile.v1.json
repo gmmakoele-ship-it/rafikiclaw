@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://metaclaw.local/schemas/clawfile.v1.json",
-  "title": "MetaClaw Clawfile v1",
+  "$id": "https://rafikiclaw.local/schemas/clawfile.v1.json",
+  "title": "RafikiClaw Clawfile v1",
   "type": "object",
   "required": ["apiVersion", "kind", "agent"],
   "additionalProperties": false,
   "properties": {
-    "apiVersion": {"const": "metaclaw/v1"},
+    "apiVersion": {"const": "rafikiclaw/v1"},
     "kind": {"const": "Agent"},
     "agent": {
       "type": "object",

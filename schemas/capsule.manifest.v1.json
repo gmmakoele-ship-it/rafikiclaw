@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://metaclaw.local/schemas/capsule.manifest.v1.json",
-  "title": "MetaClaw Capsule Manifest v1",
+  "$id": "https://rafikiclaw.local/schemas/capsule.manifest.v1.json",
+  "title": "RafikiClaw Capsule Manifest v1",
   "type": "object",
   "required": ["version", "capsuleId", "digests", "runtimeCompatibility", "locks"],
   "additionalProperties": false,

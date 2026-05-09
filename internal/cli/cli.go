@@ -55,6 +55,8 @@ func Execute(args []string) int {
 		return runOnboard(args[1:])
 	case "doctor":
 		return runDoctor(args[1:])
+	case "proxy":
+		return runProxy(args[1:])
 	case "project":
 		return runProject(args[1:])
 	case "help", "-h", "--help":
@@ -444,6 +446,7 @@ commands:
   logs <run-id> [--follow]
   inspect <run-id|capsule-dir> [--json]
   debug shell <run-id>
+  proxy --llm-url=<url> [--listen=:30000] [--skills-dir=...] [--persona=...] [--contract=...] [--signing-key=path] [--timeout=120]
   capsule list [--state-dir=.metaclaw] [--agent=...] [--since=...] [--until=...]
   capsule diff <id-or-path-1> <id-or-path-2> [--state-dir=.metaclaw] [--json]
 `)

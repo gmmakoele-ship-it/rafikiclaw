@@ -1,8 +1,8 @@
 .rafikiclaw/
+.metaclaw/
 *.db
 *.log
 *.out
-/tmp/
-/rafikiclaw
+*.tmp
 /bin/
 .DS_Store
