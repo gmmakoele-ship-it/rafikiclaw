@@ -56,7 +56,7 @@ type agentStats struct {
 
 func initialModel() model {
 	m := model{}
-	s, err := store.Open(".rafikiclaw")
+	s, err := store.Open(".")
 	if err != nil {
 		m.err = fmt.Errorf("open store: %v", err)
 		return m
@@ -70,7 +70,7 @@ func initialModel() model {
 	m.runs = recs
 
 	if len(recs) > 0 {
-		events, _ := logs.ReadEvents(".rafikiclaw", recs[0].RunID)
+		events, _ := logs.ReadEvents(".", recs[0].RunID)
 		for i := len(events) - 1; i >= 0 && len(m.logEntries) < 15; i-- {
 			if strings.TrimSpace(events[i]) != "" {
 				m.logEntries = append(m.logEntries, events[i])

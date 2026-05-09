@@ -57,10 +57,27 @@ func (s *Store) Close() error {
 	return s.db.Close()
 }
 
+func columnExists(db *sql.DB, table, col string) bool {
+	rows, err := db.Query(fmt.Sprintf("PRAGMA table_info(%s)", table))
+	if err != nil {
+		return false
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var cid int
+		var name, ctype string
+		var notnull, pk int
+		var dflt_value interface{}
+		rows.Scan(&cid, &name, &ctype, &notnull, &dflt_value, &pk)
+		if name == col {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *Store) initSchema() error {
 	stmts := []string{
-		`ALTER TABLE runs ADD COLUMN agent_name TEXT NOT NULL DEFAULT '';
-		`,
 		`CREATE TABLE IF NOT EXISTS capsules (
 			capsule_id TEXT PRIMARY KEY,
 			capsule_path TEXT NOT NULL,
@@ -87,7 +104,12 @@ func (s *Store) initSchema() error {
 			return err
 		}
 	}
-	return nil
+	// Safe migration: add agent_name only if runs table exists and column is missing
+	if columnExists(s.db, "runs", "agent_name") {
+		return nil
+	}
+	_, err := s.db.Exec(`ALTER TABLE runs ADD COLUMN agent_name TEXT NOT NULL DEFAULT '';`)
+	return err
 }
 
 func (s *Store) UpsertCapsule(capsuleID, capsulePath string) error {
