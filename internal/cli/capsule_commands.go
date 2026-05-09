@@ -94,7 +94,7 @@ func runCapsuleList(args []string) int {
 	var untilRaw string
 	var limit int
 	var asJSON bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.StringVar(&agentFilter, "agent", "", "filter by agent name (contains, case-insensitive)")
 	fs.StringVar(&sinceRaw, "since", "", "created at lower bound (RFC3339 or YYYY-MM-DD)")
 	fs.StringVar(&untilRaw, "until", "", "created at upper bound (RFC3339 or YYYY-MM-DD)")
@@ -104,7 +104,7 @@ func runCapsuleList(args []string) int {
 		return 1
 	}
 	if len(fs.Args()) != 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw capsule list [--state-dir=.metaclaw] [--agent=...] [--since=...] [--until=...]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw capsule list [--state-dir=.metaclaw] [--agent=...] [--since=...] [--until=...]")
 		return 1
 	}
 
@@ -148,14 +148,14 @@ func runCapsuleDiff(args []string) int {
 	fs := flag.NewFlagSet("capsule diff", flag.ContinueOnError)
 	var stateDir string
 	var asJSON bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.BoolVar(&asJSON, "json", false, "json output")
 	if err := fs.Parse(args); err != nil {
 		return 1
 	}
 	remaining := fs.Args()
 	if len(remaining) != 2 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw capsule diff <id-or-path-1> <id-or-path-2> [--state-dir=.metaclaw] [--json]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw capsule diff <id-or-path-1> <id-or-path-2> [--state-dir=.metaclaw] [--json]")
 		return 1
 	}
 

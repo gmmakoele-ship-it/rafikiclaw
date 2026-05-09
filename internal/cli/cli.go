@@ -170,7 +170,7 @@ func runRun(ctx context.Context, args []string) int {
 	var secretEnvNames stringListFlag
 	fs.BoolVar(&detach, "detach", false, "run in background")
 	fs.StringVar(&runtimeOverride, "runtime", "", "runtime override (podman|apple_container|docker)")
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.StringVar(&llmAPIKey, "llm-api-key", "", "LLM API key (prefer --llm-api-key-env for better secret hygiene)")
 	fs.StringVar(&llmAPIKeyEnv, "llm-api-key-env", "", "host env variable name to read LLM API key from")
 	fs.Var(&secretEnvNames, "secret-env", "host env variable to inject securely at runtime (repeatable)")
@@ -220,7 +220,7 @@ func runPS(args []string) int {
 	var stateDir string
 	var limit int
 	var asJSON bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.IntVar(&limit, "limit", 50, "max rows")
 	fs.BoolVar(&asJSON, "json", false, "json output")
 	if err := fs.Parse(args); err != nil {
@@ -253,7 +253,7 @@ func runLogs(ctx context.Context, args []string) int {
 	fs := flag.NewFlagSet("logs", flag.ContinueOnError)
 	var stateDir string
 	var follow bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.BoolVar(&follow, "follow", false, "follow runtime logs")
 	if err := fs.Parse(args); err != nil {
 		return 1
@@ -303,7 +303,7 @@ func runInspect(ctx context.Context, args []string) int {
 	fs := flag.NewFlagSet("inspect", flag.ContinueOnError)
 	var stateDir string
 	var asJSON bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.BoolVar(&asJSON, "json", false, "json output")
 	if err := fs.Parse(args); err != nil {
 		return 1
@@ -369,7 +369,7 @@ func runDebug(ctx context.Context, args []string) int {
 	parsed := reorderFlags(args[1:], map[string]bool{"--state-dir": true})
 	fs := flag.NewFlagSet("debug shell", flag.ContinueOnError)
 	var stateDir string
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	if err := fs.Parse(parsed); err != nil {
 		return 1
 	}

@@ -99,7 +99,7 @@ func runWizard(args []string) int {
 		return 1
 	}
 	if len(fs.Args()) != 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw wizard [--interactive] [--project-dir=./my-bot] [--out=agent.claw] [--vault=./vault] [--provider=gemini_openai]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw wizard [--interactive] [--project-dir=./my-bot] [--out=agent.claw] [--vault=./vault] [--provider=gemini_openai]")
 		return 1
 	}
 
@@ -179,10 +179,10 @@ func runWizard(args []string) int {
 	if opts.LLMEnabled {
 		fmt.Printf("llm contract: provider=%s model=%s apiKeyEnv=%s\n", opts.LLMProvider, opts.LLMModel, opts.LLMAPIKeyEnv)
 		fmt.Printf("next: export %s=<your_api_key>\n", opts.LLMAPIKeyEnv)
-		fmt.Printf("next: metaclaw run %s --llm-api-key-env=%s\n", opts.OutputPath, opts.LLMAPIKeyEnv)
+		fmt.Printf("next: rafikiclaw run %s --llm-api-key-env=%s\n", opts.OutputPath, opts.LLMAPIKeyEnv)
 	} else {
 		fmt.Println("llm contract: disabled")
-		fmt.Printf("next: metaclaw run %s\n", opts.OutputPath)
+		fmt.Printf("next: rafikiclaw run %s\n", opts.OutputPath)
 	}
 	return 0
 }

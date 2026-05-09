@@ -76,7 +76,7 @@ func runRelease(args []string) int {
 	var signKey string
 	var keyID string
 	var asJSON bool
-	fs.StringVar(&stateDir, "state-dir", ".metaclaw", "state directory")
+	fs.StringVar(&stateDir, "state-dir", ".rafikiclaw", "state directory")
 	fs.StringVar(&outDir, "out", "", "release output directory root")
 	fs.BoolVar(&strict, "strict", false, "enforce strict release checks")
 	fs.StringVar(&signKey, "sign-key", "", "ed25519 private key path (PEM PKCS8); auto-generated if absent")

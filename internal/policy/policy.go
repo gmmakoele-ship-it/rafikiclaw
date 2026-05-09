@@ -29,7 +29,7 @@ type MountPolicy struct {
 }
 
 func Compile(cfg v1.Clawfile) (Policy, error) {
-	p := Policy{Version: "metaclaw.policy/v1"}
+	p := Policy{Version: "rafikiclaw.policy/v1"}
 
 	mode := cfg.Agent.Habitat.Network.Mode
 	switch mode {

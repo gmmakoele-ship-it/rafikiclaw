@@ -14,21 +14,21 @@ func TestLoadVerifiesManifestAndPayloadDigests(t *testing.T) {
 	root := t.TempDir()
 	lk := locks.BundleLocks{
 		Deps: locks.DepsLock{
-			Version: "metaclaw.depslock/v1",
+			Version: "rafikiclaw.depslock/v1",
 			Skills:  []locks.SkillLock{},
 		},
 		Image: locks.ImageLock{
-			Version: "metaclaw.imagelock/v1",
+			Version: "rafikiclaw.imagelock/v1",
 			Image:   "alpine@sha256:test",
 			Digest:  "sha256:test",
 		},
 		Source: locks.SourceLock{
-			Version: "metaclaw.sourcelock/v1",
+			Version: "rafikiclaw.sourcelock/v1",
 			Files:   []locks.FileHash{},
 		},
 	}
 	pol := policy.Policy{
-		Version: "metaclaw.policy/v1",
+		Version: "rafikiclaw.policy/v1",
 		Network: policy.NetworkPolicy{Mode: "none", Allowed: false},
 	}
 	cap, err := Write(root, "agent.claw", map[string]any{"hello": "world"}, pol, lk)
@@ -57,21 +57,21 @@ func TestLoadRejectsPathTraversalInLockManifest(t *testing.T) {
 	root := t.TempDir()
 	lk := locks.BundleLocks{
 		Deps: locks.DepsLock{
-			Version: "metaclaw.depslock/v1",
+			Version: "rafikiclaw.depslock/v1",
 			Skills:  []locks.SkillLock{},
 		},
 		Image: locks.ImageLock{
-			Version: "metaclaw.imagelock/v1",
+			Version: "rafikiclaw.imagelock/v1",
 			Image:   "alpine@sha256:test",
 			Digest:  "sha256:test",
 		},
 		Source: locks.SourceLock{
-			Version: "metaclaw.sourcelock/v1",
+			Version: "rafikiclaw.sourcelock/v1",
 			Files:   []locks.FileHash{},
 		},
 	}
 	pol := policy.Policy{
-		Version: "metaclaw.policy/v1",
+		Version: "rafikiclaw.policy/v1",
 		Network: policy.NetworkPolicy{Mode: "none", Allowed: false},
 	}
 	cap, err := Write(root, "agent.claw", map[string]any{"hello": "world"}, pol, lk)

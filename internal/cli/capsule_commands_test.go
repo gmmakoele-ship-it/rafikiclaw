@@ -81,7 +81,7 @@ func TestResolveCapsuleRefAndDiff(t *testing.T) {
 	// Inject a meaningful policy difference for diff assertion.
 	policyPath := filepath.Join(rightPath, "policy.json")
 	policy := map[string]any{
-		"version": "metaclaw.policy/v1",
+		"version": "rafikiclaw.policy/v1",
 		"network": map[string]any{"mode": "outbound", "allowed": true},
 		"mounts":  []any{},
 	}
@@ -119,7 +119,7 @@ func writeTestCapsule(t *testing.T, capPath string, id string, agentName string)
 		t.Fatalf("mkdir capsule: %v", err)
 	}
 	manifest := map[string]any{
-		"version":        "metaclaw.capsule/v1",
+		"version":        "rafikiclaw.capsule/v1",
 		"capsuleId":      id,
 		"sourceClawfile": "agent.claw",
 		"digests": map[string]any{
@@ -147,13 +147,13 @@ func writeTestCapsule(t *testing.T, capPath string, id string, agentName string)
 		},
 	}
 	policy := map[string]any{
-		"version": "metaclaw.policy/v1",
+		"version": "rafikiclaw.policy/v1",
 		"network": map[string]any{"mode": "none", "allowed": false},
 		"mounts":  []any{},
 	}
-	deps := map[string]any{"version": "metaclaw.depslock/v1", "skills": []any{}}
-	image := map[string]any{"version": "metaclaw.imagelock/v1", "image": "alpine@sha256:test", "digest": "sha256:test"}
-	source := map[string]any{"version": "metaclaw.sourcelock/v1", "files": []any{}}
+	deps := map[string]any{"version": "rafikiclaw.depslock/v1", "skills": []any{}}
+	image := map[string]any{"version": "rafikiclaw.imagelock/v1", "image": "alpine@sha256:test", "digest": "sha256:test"}
+	source := map[string]any{"version": "rafikiclaw.sourcelock/v1", "files": []any{}}
 
 	writeJSONFile(t, filepath.Join(capPath, "manifest.json"), manifest)
 	writeJSONFile(t, filepath.Join(capPath, "ir.json"), ir)

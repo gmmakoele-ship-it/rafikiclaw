@@ -78,7 +78,7 @@ const (
 	doctorStatusWarn = "warn"
 	doctorStatusFail = "fail"
 
-	quickstartDefaultImageRepo = "metaclaw/obsidian-terminal-bot"
+	quickstartDefaultImageRepo = "rafikiclaw/obsidian-terminal-bot"
 	quickstartDefaultImageTag  = "local"
 )
 
@@ -366,7 +366,7 @@ func runQuickstart(args []string) int {
 		return 0
 	}
 
-	exePath := "metaclaw"
+	exePath := "rafikiclaw"
 	if exe, err := os.Executable(); err == nil {
 		exePath = exe
 	}

@@ -44,7 +44,7 @@ type RunOutcome struct {
 
 func New(stateDir string) (*Manager, error) {
 	if stateDir == "" {
-		stateDir = ".metaclaw"
+		stateDir = ".rafikiclaw"
 	}
 	s, err := store.Open(stateDir)
 	if err != nil {

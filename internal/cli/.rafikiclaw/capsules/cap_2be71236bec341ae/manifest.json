@@ -1,0 +1,30 @@
+{
+  "capsuleId": "2be71236bec341ae",
+  "digests": {
+    "deps": "sha256:8a191e73703e9f13cb8e9ce106ef3ba7b141ed2b37a637624a625058767aa6d9",
+    "image": "sha256:af6d724d329c65e490b4ae618a8e3bd5244c2ffefaf12e804025ac7505502765",
+    "ir": "sha256:602f18a4f4eec2c95c36c6c4356711c0cd9bda1a1c45ef557eb60e1671070bad",
+    "policy": "sha256:adb3f19d04d9bab5ec0a16bf37e72bd2b63bd4ae6926ea28bf25855c77801e48",
+    "source": "sha256:d72597968925c7fd83ccbe8770248defe59d616ee5bf5715956f72f685e27c5e"
+  },
+  "locks": {
+    "dependency": "locks/deps.lock.json",
+    "image": "locks/image.lock.json",
+    "source": "locks/source.lock.json"
+  },
+  "runtimeCompatibility": {
+    "semantics": [
+      "detach",
+      "env",
+      "volume",
+      "workdir"
+    ],
+    "targets": [
+      "podman",
+      "apple_container",
+      "docker"
+    ]
+  },
+  "sourceClawfile": "agent.claw",
+  "version": "rafikiclaw.capsule/v1"
+}

@@ -177,12 +177,12 @@ func TestBuildQuickstartRuntimeCandidatesExplicit(t *testing.T) {
 }
 
 func TestParseApplePinnedImageRef(t *testing.T) {
-	raw := []byte(`[{"name":"metaclaw/obsidian-terminal-bot:local","index":{"digest":"sha256:abc123"}}]`)
-	got, err := parseApplePinnedImageRef(raw, "metaclaw/obsidian-terminal-bot:local")
+	raw := []byte(`[{"name":"rafikiclaw/obsidian-terminal-bot:local","index":{"digest":"sha256:abc123"}}]`)
+	got, err := parseApplePinnedImageRef(raw, "rafikiclaw/obsidian-terminal-bot:local")
 	if err != nil {
 		t.Fatalf("parseApplePinnedImageRef error: %v", err)
 	}
-	if got != "metaclaw/obsidian-terminal-bot:local@sha256:abc123" {
+	if got != "rafikiclaw/obsidian-terminal-bot:local@sha256:abc123" {
 		t.Fatalf("unexpected pinned ref: %s", got)
 	}
 }

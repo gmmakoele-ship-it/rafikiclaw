@@ -13,7 +13,7 @@ import (
 
 func runProject(args []string) int {
 	if len(args) == 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw project <init|upgrade> ...")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw project <init|upgrade> ...")
 		return 1
 	}
 	switch args[0] {
@@ -23,7 +23,7 @@ func runProject(args []string) int {
 		return runProjectUpgrade(args[1:])
 	default:
 		fmt.Fprintf(os.Stderr, "unknown project command: %s\n", args[0])
-		fmt.Fprintln(os.Stderr, "usage: metaclaw project <init|upgrade> ...")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw project <init|upgrade> ...")
 		return 1
 	}
 }
@@ -57,7 +57,7 @@ func runProjectInit(args []string) int {
 		return 1
 	}
 	if len(fs.Args()) != 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw project init --project-dir=... (--template-dir=... | --template-repo=... --template-path=...) [--ref=main] [--force]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw project init --project-dir=... (--template-dir=... | --template-repo=... --template-path=...) [--ref=main] [--force]")
 		return 1
 	}
 	if strings.TrimSpace(projectDir) == "" {
@@ -142,7 +142,7 @@ func runProjectUpgrade(args []string) int {
 		return 1
 	}
 	if len(fs.Args()) != 0 {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw project upgrade [--project-dir=.] [--force] [--dry-run]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw project upgrade [--project-dir=.] [--force] [--dry-run]")
 		return 1
 	}
 

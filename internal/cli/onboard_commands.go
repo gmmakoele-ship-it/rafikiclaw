@@ -76,7 +76,7 @@ func runOnboard(args []string) int {
 
 	remaining := fs.Args()
 	if len(remaining) != 1 || remaining[0] != "obsidian" {
-		fmt.Fprintln(os.Stderr, "usage: metaclaw onboard obsidian [--interactive] [--project-dir=./my-obsidian-bot] [--vault=/abs/path/to/vault] [--vault-write] [--runtime=auto|apple_container|podman|docker] [--profile=obsidian-chat] [--save-env] [--skip-build] [--no-run] [--force]")
+		fmt.Fprintln(os.Stderr, "usage: rafikiclaw onboard obsidian [--interactive] [--project-dir=./my-obsidian-bot] [--vault=/abs/path/to/vault] [--vault-write] [--runtime=auto|apple_container|podman|docker] [--profile=obsidian-chat] [--save-env] [--skip-build] [--no-run] [--force]")
 		return 1
 	}
 
@@ -195,7 +195,7 @@ func runOnboard(args []string) int {
 		return 0
 	}
 
-	exePath := "metaclaw"
+	exePath := "rafikiclaw"
 	if exe, err := os.Executable(); err == nil {
 		exePath = exe
 	}

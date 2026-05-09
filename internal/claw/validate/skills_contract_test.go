@@ -18,7 +18,7 @@ func TestValidateSkillsWithCapabilityContract(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(skillDir, "run.sh"), []byte("#!/bin/sh\necho hi\n"), 0o644); err != nil {
 		t.Fatalf("write skill file: %v", err)
 	}
-	contract := `apiVersion: metaclaw.capability/v1
+	contract := `apiVersion: rafikiclaw.capability/v1
 kind: CapabilityContract
 metadata:
   name: obsidian.reader
@@ -79,7 +79,7 @@ func TestValidateSkillsRejectsContractPolicyMismatch(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(skillDir, "run.sh"), []byte("#!/bin/sh\necho hi\n"), 0o644); err != nil {
 		t.Fatalf("write skill file: %v", err)
 	}
-	contract := `apiVersion: metaclaw.capability/v1
+	contract := `apiVersion: rafikiclaw.capability/v1
 kind: CapabilityContract
 metadata:
   name: obsidian.writer
@@ -129,7 +129,7 @@ func TestValidateSkillsByIDRequireVersionAndDigest(t *testing.T) {
 			Name:    "a",
 			Species: v1.SpeciesNano,
 			Skills: []v1.SkillRef{
-				{ID: "metaclaw/obsidian-sync"},
+				{ID: "rafikiclaw/obsidian-sync"},
 			},
 		},
 	}

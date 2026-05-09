@@ -1,0 +1,15 @@
+{
+  "envAllowlist": null,
+  "mounts": [
+    {
+      "readOnly": true,
+      "source": "/tmp/TestRunReleaseStrictRejectsNetworkAll504839923/001/vault",
+      "target": "/vault"
+    }
+  ],
+  "network": {
+    "allowed": true,
+    "mode": "all"
+  },
+  "version": "rafikiclaw.policy/v1"
+}

@@ -1,0 +1,5 @@
+{
+  "digest": "sha256:41303f9439f0644b9c4eaa0372e46e1d65bae96878e04c0427c7060b3f7fdca0",
+  "image": "alpine:3.20@sha256:a4f4213abb84c497377b8544c81b3564f313746700372ec4fe84653e4fb03805",
+  "version": "rafikiclaw.imagelock/v1"
+}

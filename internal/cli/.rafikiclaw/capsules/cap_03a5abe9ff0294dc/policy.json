@@ -1,0 +1,15 @@
+{
+  "envAllowlist": null,
+  "mounts": [
+    {
+      "readOnly": true,
+      "source": "/tmp/TestRunKeygenReleaseVerify3130008387/001/vault",
+      "target": "/vault"
+    }
+  ],
+  "network": {
+    "allowed": true,
+    "mode": "outbound"
+  },
+  "version": "rafikiclaw.policy/v1"
+}

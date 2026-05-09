@@ -45,7 +45,7 @@ func Compile(path string, outputDir string) (Result, error) {
 	}
 
 	ir := map[string]any{
-		"version":  "metaclaw.ir/v1",
+		"version":  "rafikiclaw.ir/v1",
 		"clawfile": normalized,
 		"runtime": map[string]any{
 			"target": normalized.Agent.Runtime.Target,

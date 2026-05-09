@@ -18,7 +18,7 @@ func TestLoadFromSkillPathAndValidateAgainstAgent(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(skillDir, "handler.sh"), []byte("#!/bin/sh\necho ok\n"), 0o644); err != nil {
 		t.Fatalf("write skill file: %v", err)
 	}
-	contract := `apiVersion: metaclaw.capability/v1
+	contract := `apiVersion: rafikiclaw.capability/v1
 kind: CapabilityContract
 metadata:
   name: obsidian.ingest

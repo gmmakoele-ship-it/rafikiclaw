@@ -217,7 +217,7 @@ func Create(opts CreateOptions) (CreateResult, error) {
 
 	createdAt := time.Now().UTC().Format(time.RFC3339Nano)
 	releaseManifest := ReleaseManifest{
-		Version:   "metaclaw.release/v1",
+		Version:   "rafikiclaw.release/v1",
 		ReleaseID: releaseID,
 		CreatedAt: createdAt,
 		Strict:    opts.Strict,
@@ -265,7 +265,7 @@ func Create(opts CreateOptions) (CreateResult, error) {
 	}
 
 	att := Attestation{
-		Version:   "metaclaw.attestation/v1",
+		Version:   "rafikiclaw.attestation/v1",
 		ReleaseID: releaseID,
 		CreatedAt: createdAt,
 		CapsuleID: manifest.CapsuleID,
@@ -640,7 +640,7 @@ func buildProvenance(createdAt string, manifest capsule.Manifest, src locks.Sour
 		}
 	}
 	return Provenance{
-		Version:        "metaclaw.provenance/v1",
+		Version:        "rafikiclaw.provenance/v1",
 		CreatedAt:      createdAt,
 		ToolModule:     modulePath,
 		ToolVersion:    moduleVersion,

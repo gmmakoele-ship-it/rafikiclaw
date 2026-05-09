@@ -103,7 +103,7 @@ func Write(outputDir string, sourceClawfile string, ir any, pol policy.Policy, l
 	capsuleID := makeCapsuleID(digests)
 
 	manifest := Manifest{
-		Version:        "metaclaw.capsule/v1",
+		Version:        "rafikiclaw.capsule/v1",
 		CapsuleID:      capsuleID,
 		SourceClawfile: filepath.Base(sourceClawfile),
 		Digests:        digests,
@@ -145,7 +145,7 @@ func Write(outputDir string, sourceClawfile string, ir any, pol policy.Policy, l
 		return Capsule{}, err
 	}
 	portable := map[string]any{
-		"version": "metaclaw.portable/v1",
+		"version": "rafikiclaw.portable/v1",
 		"image":   lk.Image.Image,
 		"network": pol.Network.Mode,
 		"mounts":  pol.Mounts,

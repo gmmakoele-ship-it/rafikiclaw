@@ -70,7 +70,7 @@ func Generate(cfg v1.Clawfile, clawfilePath string, outputDir string) (BundleLoc
 }
 
 func buildDepsLock(cfg v1.Clawfile, base string) (DepsLock, error) {
-	out := DepsLock{Version: "metaclaw.depslock/v1"}
+	out := DepsLock{Version: "rafikiclaw.depslock/v1"}
 	for _, s := range cfg.Agent.Skills {
 		sl := SkillLock{Path: s.Path, ID: s.ID, Version: s.Version}
 		if s.Path != "" {
@@ -110,14 +110,14 @@ func buildImageLock(cfg v1.Clawfile) ImageLock {
 	image := cfg.Agent.Runtime.Image
 	sum := sha256.Sum256([]byte(image))
 	return ImageLock{
-		Version: "metaclaw.imagelock/v1",
+		Version: "rafikiclaw.imagelock/v1",
 		Image:   image,
 		Digest:  "sha256:" + hex.EncodeToString(sum[:]),
 	}
 }
 
 func buildSourceLock(root string, excludes []string) (SourceLock, error) {
-	out := SourceLock{Version: "metaclaw.sourcelock/v1"}
+	out := SourceLock{Version: "rafikiclaw.sourcelock/v1"}
 	commit, tree := gitMetadata(root)
 	out.GitCommit = commit
 	out.GitTree = tree

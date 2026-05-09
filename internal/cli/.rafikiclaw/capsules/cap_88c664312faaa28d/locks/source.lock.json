@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "path": "agent.claw",
+      "sha256": "b4ed04facf7d15b3db57e643d82378f2bfadc53c861199e24020872bd713e154"
+    },
+    {
+      "path": "k.priv.pem",
+      "sha256": "133ff4cf73f8b0501d0d8e97b00b8be80d8f34221553fe07cadd84e149f03582"
+    },
+    {
+      "path": "k.pub.pem",
+      "sha256": "712416882083eb883129e66262a59b32251ad51d79e055a8f585eae7e8b47916"
+    }
+  ],
+  "version": "rafikiclaw.sourcelock/v1"
+}

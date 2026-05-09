@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	ContractAPIVersion = "metaclaw.capability/v1"
+	ContractAPIVersion = "rafikiclaw.capability/v1"
 	ContractKind       = "CapabilityContract"
 )
 
