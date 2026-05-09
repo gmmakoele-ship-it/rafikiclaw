@@ -22,7 +22,7 @@ func TestReplaceFirstNetworkMode(t *testing.T) {
 func TestRewriteObsidianAgentFile(t *testing.T) {
 	dir := t.TempDir()
 	agent := filepath.Join(dir, "agent.claw")
-	content := `apiVersion: metaclaw/v1
+	content := `apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   habitat:
@@ -250,7 +250,7 @@ func TestScaffoldObsidianProjectCopiesAgents(t *testing.T) {
 		t.Fatalf("mkdir agents: %v", err)
 	}
 
-	agent := `apiVersion: metaclaw/v1
+	agent := `apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   habitat:

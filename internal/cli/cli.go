@@ -75,7 +75,7 @@ func runInit(args []string) int {
 	if err := fs.Parse(args); err != nil {
 		return 1
 	}
-	template := `apiVersion: metaclaw/v1
+	template := `apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: hello-agent

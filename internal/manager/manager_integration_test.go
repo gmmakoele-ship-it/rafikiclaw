@@ -281,7 +281,7 @@ type clawSpec struct {
 func writeClawfile(t *testing.T, dir string, spec clawSpec) string {
 	t.Helper()
 	path := filepath.Join(dir, spec.Name+".claw")
-	content := fmt.Sprintf(`apiVersion: metaclaw/v1
+	content := fmt.Sprintf(`apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: %s

@@ -1,4 +1,4 @@
-apiVersion: metaclaw/v1
+apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: hello

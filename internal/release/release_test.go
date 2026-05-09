@@ -129,7 +129,7 @@ func TestVerifyCapsuleDirectory(t *testing.T) {
 
 func writeTestClaw(t *testing.T, outPath string, networkMode string) {
 	t.Helper()
-	content := "apiVersion: metaclaw/v1\n" +
+	content := "apiVersion: rafikiclaw/v1\n" +
 		"kind: Agent\n" +
 		"agent:\n" +
 		"  name: test-agent\n" +

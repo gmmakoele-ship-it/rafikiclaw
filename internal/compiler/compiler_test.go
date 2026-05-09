@@ -35,7 +35,7 @@ func TestCompileDeterministicManifest(t *testing.T) {
 func TestCompileDeterministicWithOutputUnderSourceRoot(t *testing.T) {
 	root := t.TempDir()
 	claw := filepath.Join(root, "agent.claw")
-	content := `apiVersion: metaclaw/v1
+	content := `apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: hello
@@ -83,7 +83,7 @@ agent:
 func TestCompileDeterministicAcrossAbsoluteAndRelativeInputPath(t *testing.T) {
 	root := t.TempDir()
 	clawPath := filepath.Join(root, "agent.claw")
-	content := `apiVersion: metaclaw/v1
+	content := `apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: hello

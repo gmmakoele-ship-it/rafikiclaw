@@ -10,7 +10,7 @@ import (
 
 func TestNormalizeDefaults(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -34,7 +34,7 @@ func TestNormalizeDefaults(t *testing.T) {
 
 func TestRejectUnpinnedImage(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -50,7 +50,7 @@ func TestRejectUnpinnedImage(t *testing.T) {
 
 func TestNormalizeLLMGeminiDefaults(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -75,7 +75,7 @@ func TestNormalizeLLMGeminiDefaults(t *testing.T) {
 
 func TestRejectLLMWithoutProvider(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -93,7 +93,7 @@ func TestRejectLLMWithoutProvider(t *testing.T) {
 
 func TestRejectLLMWithoutModel(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -111,7 +111,7 @@ func TestRejectLLMWithoutModel(t *testing.T) {
 
 func TestRejectRelativeMountSource(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -134,7 +134,7 @@ func TestRejectRelativeMountSource(t *testing.T) {
 
 func TestRejectNonAbsoluteMountTarget(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -159,7 +159,7 @@ func TestRejectDuplicateMountTargets(t *testing.T) {
 	src1 := filepath.Clean(t.TempDir())
 	src2 := filepath.Clean(t.TempDir())
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",

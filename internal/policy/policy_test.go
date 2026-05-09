@@ -8,7 +8,7 @@ import (
 
 func TestCompileDenyByDefaultNetwork(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:      "a",
@@ -30,7 +30,7 @@ func TestCompileDenyByDefaultNetwork(t *testing.T) {
 
 func TestCompileIncludesLLMEnvAllowlist(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:      "a",

@@ -150,8 +150,8 @@ func (p LLMProvider) Valid() bool {
 }
 
 func (c Clawfile) ValidateBasics() error {
-	if c.APIVersion != "metaclaw/v1" {
-		return fmt.Errorf("apiVersion must be metaclaw/v1")
+	if c.APIVersion != "rafikiclaw/v1" {
+		return fmt.Errorf("apiVersion must be rafikiclaw/v1")
 	}
 	if c.Kind != "Agent" {
 		return fmt.Errorf("kind must be Agent")

@@ -369,7 +369,7 @@ func buildWizardClawfile(opts wizardOptions) v1.Clawfile {
 		},
 	}
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:      opts.AgentName,

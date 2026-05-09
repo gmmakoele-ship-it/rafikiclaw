@@ -41,7 +41,7 @@ compatibility:
 	}
 
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -96,7 +96,7 @@ permissions:
 	}
 
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",
@@ -123,7 +123,7 @@ permissions:
 
 func TestValidateSkillsByIDRequireVersionAndDigest(t *testing.T) {
 	cfg := v1.Clawfile{
-		APIVersion: "metaclaw/v1",
+		APIVersion: "rafikiclaw/v1",
 		Kind:       "Agent",
 		Agent: v1.AgentSpec{
 			Name:    "a",

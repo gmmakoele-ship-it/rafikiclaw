@@ -68,7 +68,7 @@ func TestRunReleaseStrictRejectsNetworkAll(t *testing.T) {
 }
 
 func renderCLIClaw(vaultPath, networkMode string) string {
-	return fmt.Sprintf(`apiVersion: metaclaw/v1
+	return fmt.Sprintf(`apiVersion: rafikiclaw/v1
 kind: Agent
 agent:
   name: cli-release-test
